@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" fill="none">
+  <!-- Top cream hexagon -->
+  <polygon points="100,20 125,35 125,65 100,80 75,65 75,35" fill="#F2E8D0"/>
+  <!-- Left golden hexagon -->
+  <polygon points="55,50 80,65 80,95 55,110 30,95 30,65" fill="#C5A332"/>
+  <!-- Right golden hexagon -->
+  <polygon points="145,50 170,65 170,95 145,110 120,95 120,65" fill="#C5A332"/>
+  <!-- Bottom-left golden hexagon -->
+  <polygon points="55,100 80,115 80,145 55,160 30,145 30,115" fill="#C5A332"/>
+  <!-- Bottom-right golden hexagon -->
+  <polygon points="145,100 170,115 170,145 145,160 120,145 120,115" fill="#C5A332"/>
+  <!-- Bottom cream hexagon -->
+  <polygon points="100,130 125,145 125,175 100,190 75,175 75,145" fill="#F2E8D0"/>
+</svg>
