@@ -32,8 +32,8 @@ export default function DashboardOverview() {
     const fetchOverviewData = async () => {
         try {
             const [logsRes, todosRes] = await Promise.all([
-                axios.get('http://localhost:5000/api/worklogs/today'),
-                axios.get('http://localhost:5000/api/todos')
+                axios.get('/api/worklogs/today'),
+                axios.get('/api/todos')
             ]);
             
             const rawLogs = logsRes.data || [];
@@ -66,7 +66,7 @@ export default function DashboardOverview() {
 
     const toggleTodoStatus = async (id, currentStatus) => {
         try {
-            await axios.put(`http://localhost:5000/api/todos/${id}/status`, { status: currentStatus === 'Completed' ? 'Pending' : 'Completed' });
+            await axios.put(`/api/todos/${id}/status`, { status: currentStatus === 'Completed' ? 'Pending' : 'Completed' });
             fetchOverviewData();
         } catch (err) { console.error('Failed to toggle todo'); }
     };
@@ -76,10 +76,10 @@ export default function DashboardOverview() {
         try {
             const body = { task: taskDesc, timeSpent: timeSpent ? parseInt(timeSpent) : null, notes };
             if (editingLogId) {
-                await axios.put(`http://localhost:5000/api/worklogs/${editingLogId}`, body);
+                await axios.put(`/api/worklogs/${editingLogId}`, body);
                 toast.success('Updated');
             } else {
-                await axios.post('http://localhost:5000/api/worklogs', body);
+                await axios.post('/api/worklogs', body);
                 toast.success('Entry logged');
             }
             cancelEdit();
@@ -89,7 +89,7 @@ export default function DashboardOverview() {
 
     const handleDeleteLog = async (id) => {
         try {
-            await axios.delete(`http://localhost:5000/api/worklogs/${id}`);
+            await axios.delete(`/api/worklogs/${id}`);
             toast.success('Deleted');
             if (editingLogId === id) cancelEdit();
             fetchOverviewData();
@@ -107,7 +107,7 @@ export default function DashboardOverview() {
 
     const compileReport = async () => {
         try {
-            await axios.post('http://localhost:5000/api/reports/generate');
+            await axios.post('/api/reports/generate');
             toast.success('Report compiled');
             fetchOverviewData();
         } catch (err) { toast.error(err.response?.data?.msg || 'Compile error'); }

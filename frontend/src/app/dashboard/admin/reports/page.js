@@ -17,7 +17,7 @@ export default function AdminReportsPage() {
 
     const fetchReports = useCallback(async () => {
         try {
-            const res = await axios.get(`http://localhost:5000/api/reports/admin?date=${date}`);
+            const res = await axios.get(`/api/reports/admin?date=${date}`);
             setReports(res.data);
             setLastUpdated(new Date());
         } catch (err) { console.error(err); }

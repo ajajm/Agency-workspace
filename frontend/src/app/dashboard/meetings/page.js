@@ -20,7 +20,7 @@ export default function MeetingsPage() {
 
     const fetchMeetings = async () => {
         try {
-            const res = await axios.get('http://localhost:5000/api/meetings');
+            const res = await axios.get('/api/meetings');
             setMeetings(res.data);
         } catch (err) { console.error(err); }
     };
@@ -28,7 +28,7 @@ export default function MeetingsPage() {
     const handleCreateMeeting = async (e) => {
         e.preventDefault();
         try {
-            await axios.post('http://localhost:5000/api/meetings', { title, description, time: new Date(time) });
+            await axios.post('/api/meetings', { title, description, time: new Date(time) });
             setTitle(''); setDescription(''); setTime('');
             toast.success('Meeting invite sent!');
             fetchMeetings();
@@ -37,7 +37,7 @@ export default function MeetingsPage() {
 
     const handleRsvp = async (meetingId, status, message = '') => {
         try {
-            await axios.post(`http://localhost:5000/api/meetings/${meetingId}/rsvp`, { status, message });
+            await axios.post(`/api/meetings/${meetingId}/rsvp`, { status, message });
             toast.success(`RSVP recorded: ${status}`);
             setRsvpModal(null); setRsvpMsg('');
             fetchMeetings();

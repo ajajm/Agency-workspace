@@ -17,19 +17,19 @@ export default function TodosPage() {
     useEffect(() => { fetchTodos(); }, []);
 
     const fetchTodos = async () => {
-        try { const res = await axios.get('http://localhost:5000/api/todos'); setTodos(res.data); }
+        try { const res = await axios.get('/api/todos'); setTodos(res.data); }
         catch (err) { console.error(err); }
     };
 
     const toggleStatus = async (id, s) => {
-        try { await axios.put(`http://localhost:5000/api/todos/${id}/status`, { status: s === 'Completed' ? 'Pending' : 'Completed' }); fetchTodos(); }
+        try { await axios.put(`/api/todos/${id}/status`, { status: s === 'Completed' ? 'Pending' : 'Completed' }); fetchTodos(); }
         catch (err) { console.error(err); }
     };
 
     const startEdit = (t) => { setEditingId(t.id); setEditForm({ title: t.title, notes: t.notes || '', deadline: t.deadline ? t.deadline.split('T')[0] : '' }); };
-    const saveEdit = async () => { try { await axios.put(`http://localhost:5000/api/todos/${editingId}`, editForm); setEditingId(null); fetchTodos(); } catch { } };
-    const deleteTodo = async (id) => { if (!confirm('Delete this todo?')) return; try { await axios.delete(`http://localhost:5000/api/todos/${id}`); fetchTodos(); } catch { } };
-    const createTodo = async (e) => { e.preventDefault(); try { await axios.post('http://localhost:5000/api/todos', { title: newTitle, notes: newNotes, assignedTo: user.id }); setNewTitle(''); setNewNotes(''); setShowNew(false); fetchTodos(); } catch { } };
+    const saveEdit = async () => { try { await axios.put(`/api/todos/${editingId}`, editForm); setEditingId(null); fetchTodos(); } catch { } };
+    const deleteTodo = async (id) => { if (!confirm('Delete this todo?')) return; try { await axios.delete(`/api/todos/${id}`); fetchTodos(); } catch { } };
+    const createTodo = async (e) => { e.preventDefault(); try { await axios.post('/api/todos', { title: newTitle, notes: newNotes, assignedTo: user.id }); setNewTitle(''); setNewNotes(''); setShowNew(false); fetchTodos(); } catch { } };
 
     const inputCls = "w-full rounded-lg px-3 py-2.5 text-[13px] transition-all";
     const inputStyle = { background: 'var(--bg-tertiary)', border: '1px solid var(--border-subtle)', color: 'var(--text-primary)' };

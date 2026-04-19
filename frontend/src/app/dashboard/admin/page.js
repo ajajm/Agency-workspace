@@ -46,7 +46,7 @@ export default function AdminPage() {
 
     const fetchUsers = async () => {
         try {
-            const res = await axios.get('http://localhost:5000/api/users');
+            const res = await axios.get('/api/users');
             setUsers(res.data.sort((a, b) => ROLES.indexOf(a.role?.split(', ')[0]) - ROLES.indexOf(b.role?.split(', ')[0])));
         } catch (err) { console.error(err); }
     };
@@ -58,10 +58,10 @@ export default function AdminPage() {
             if (editingUser) {
                 const body = { name: form.name, email: form.email, role: roleStr };
                 if (form.password) body.password = form.password;
-                await axios.put(`http://localhost:5000/api/users/${editingUser.id}`, body);
+                await axios.put(`/api/users/${editingUser.id}`, body);
                 toast.success('User updated');
             } else {
-                await axios.post('http://localhost:5000/api/users', { ...form, role: roleStr });
+                await axios.post('/api/users', { ...form, role: roleStr });
                 toast.success('User created');
             }
             setForm({ name: '', email: '', password: '', roles: ['Intern'] });
@@ -71,7 +71,7 @@ export default function AdminPage() {
     };
 
     const handleDeleteUser = async (id) => {
-        try { await axios.delete(`http://localhost:5000/api/users/${id}`); toast.success('User deleted'); fetchUsers(); }
+        try { await axios.delete(`/api/users/${id}`); toast.success('User deleted'); fetchUsers(); }
         catch (err) { toast.error('Failed to delete user'); }
     };
 
@@ -88,9 +88,9 @@ export default function AdminPage() {
             if (todoDeadline) body.deadline = todoDeadline;
             if (todoAssignMode === 'user') body.assignedTo = todoAssignedUser;
             else body.assignedRole = todoAssignedRole;
-            await axios.post('http://localhost:5000/api/todos', body);
+            await axios.post('/api/todos', body);
             try {
-                await axios.post('http://localhost:5000/api/notifications', {
+                await axios.post('/api/notifications', {
                     title: `New Task: ${todoTitle}`,
                     user_id: todoAssignMode === 'user' ? todoAssignedUser : null,
                     role: todoAssignMode === 'role' ? todoAssignedRole : null
@@ -107,7 +107,7 @@ export default function AdminPage() {
             const body = { title: notifTitle };
             if (notifAssignMode === 'user') body.user_id = notifAssignedUser;
             else body.role = notifAssignedRole;
-            await axios.post('http://localhost:5000/api/notifications', body);
+            await axios.post('/api/notifications', body);
             setNotifTitle('');
             toast.success('Notification sent!');
         } catch (err) { toast.error('Failed to send notification'); }

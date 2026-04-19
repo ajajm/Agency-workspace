@@ -28,7 +28,7 @@ export default function SettingsPage() {
             setAvatarPreview(base64);
             setUploading(true);
             try {
-                const res = await axios.post('http://localhost:5000/api/users/avatar', { avatar_url: base64 });
+                const res = await axios.post('/api/users/avatar', { avatar_url: base64 });
                 if (setUser) setUser(prev => ({ ...prev, avatar_url: base64 }));
                 toast.success('Profile photo updated!');
             } catch (err) {

@@ -68,7 +68,7 @@ export default function DashboardLayout({ children }) {
 
     const fetchPunchStatus = async () => {
         try {
-            const res = await axios.get('http://localhost:5000/api/punchlogs/active');
+            const res = await axios.get('/api/punchlogs/active');
             setActivePunch(res.data?.id ? res.data : null);
             if (!res.data?.id) setElapsedTime('');
         } catch (err) { console.error(err); }
@@ -76,7 +76,7 @@ export default function DashboardLayout({ children }) {
 
     const handlePunchIn = async () => {
         try {
-            const res = await axios.post('http://localhost:5000/api/punchlogs/in');
+            const res = await axios.post('/api/punchlogs/in');
             setActivePunch(res.data);
             toast.success('Punched in');
             // Allow overview page to listen by emitting a custom event
@@ -86,7 +86,7 @@ export default function DashboardLayout({ children }) {
 
     const handlePunchOut = async () => {
         try {
-            await axios.post('http://localhost:5000/api/punchlogs/out');
+            await axios.post('/api/punchlogs/out');
             toast.success('Punched out');
             setActivePunch(null);
             setElapsedTime('');

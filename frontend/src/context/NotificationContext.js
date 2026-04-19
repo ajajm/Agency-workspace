@@ -27,7 +27,7 @@ export function NotificationProvider({ children }) {
     const fetchNotifications = useCallback(async () => {
         if (!user) return;
         try {
-            const res = await axios.get('http://localhost:5000/api/notifications');
+            const res = await axios.get('/api/notifications');
             const data = Array.isArray(res.data) ? res.data : [];
 
             if (isFirstFetchRef.current) {
@@ -63,7 +63,7 @@ export function NotificationProvider({ children }) {
 
     const markAsRead = async (id) => {
         try {
-            await axios.put(`http://localhost:5000/api/notifications/${id}/read`);
+            await axios.put(`/api/notifications/${id}/read`);
             fetchNotifications();
         } catch (_) {}
     };

@@ -5,6 +5,7 @@ const supabase = require('../config/supabase');
 const axios = require('axios');
 
 let memoryRSVPs = [];
+const internalApiBaseUrl = process.env.BACKEND_URL || `http://localhost:${process.env.PORT || 5000}`;
 
 // POST /api/meetings — Create Meeting Event
 router.post('/', auth, async (req, res) => {
@@ -17,7 +18,7 @@ router.post('/', auth, async (req, res) => {
 
         // Try to trigger a notification for everyone (mocking role check if needed, but we'll try the /api/notifications endpoint or insert manually)
         try {
-            await axios.post(`http://localhost:${process.env.PORT || 5000}/api/notifications`, {
+            await axios.post(`${internalApiBaseUrl}/api/notifications`, {
                 title: `New Meeting: ${title}`,
                 role: 'Intern' // we will assume everyone is at least Intern. Actually, let's just trigger it directly manually via DB
             }, { headers: { Authorization: req.headers.authorization } });
@@ -25,7 +26,7 @@ router.post('/', auth, async (req, res) => {
             // Just to be safe, also do Founder, Admin, etc
             const roles = ['Founder', 'Admin', 'Manager', 'Project Manager', 'Script Writer', 'Editor', 'Core Team'];
             roles.forEach(async r => {
-                await axios.post(`http://localhost:${process.env.PORT || 5000}/api/notifications`, { title: `New Meeting: ${title}`, role: r }, { headers: { Authorization: req.headers.authorization } }).catch(()=>null);
+                await axios.post(`${internalApiBaseUrl}/api/notifications`, { title: `New Meeting: ${title}`, role: r }, { headers: { Authorization: req.headers.authorization } }).catch(()=>null);
             });
         } catch (ignored) {}
 
